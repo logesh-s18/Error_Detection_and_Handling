@@ -1,7 +1,5 @@
 #include <iostream>
 
-// We want to test the following function
-// For simplicity, we'll ignore that 'y' is sometimes counted as a vowel
 bool isLowerVowel(char c)
 {
     switch (c)
@@ -17,11 +15,15 @@ bool isLowerVowel(char c)
     }
 }
 
-int main()
+// Not called from anywhere right now
+// But here if you want to retest things later
+void testVowel()
 {
-    // So here's our temporary tests to validate it works
     std::cout << isLowerVowel('a') << '\n'; // temporary test code, should produce 1
     std::cout << isLowerVowel('q') << '\n'; // temporary test code, should produce 0
+}
 
+int main()
+{
     return 0;
 }
