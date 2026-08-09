@@ -15,15 +15,22 @@ bool isLowerVowel(char c)
     }
 }
 
-// Not called from anywhere right now
-// But here if you want to retest things later
-void testVowel()
+// returns the number of the test that failed, or 0 if all tests passed
+int testVowel()
 {
-    std::cout << isLowerVowel('a') << '\n'; // temporary test code, should produce 1
-    std::cout << isLowerVowel('q') << '\n'; // temporary test code, should produce 0
+    if (!isLowerVowel('a')) return 1;
+    if (isLowerVowel('q')) return 2;
+
+    return 0;
 }
 
 int main()
 {
+    int result{ testVowel() };
+    if (result != 0)
+        std::cout << "testVowel() test " << result << " failed.\n";
+    else
+        std::cout << "testVowel() tests passed.\n";
+
     return 0;
 }
