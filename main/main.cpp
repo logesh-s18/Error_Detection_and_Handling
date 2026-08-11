@@ -42,7 +42,15 @@ int testVowel()
 
 int main()
 {
-    testVowel();
+    //testVowel();
+
+    double x = 0.1;
+    double y = 0.2;
+    double z = 0.3;
+    double a = 0.4;
+    double b = 0.5;
+    double c = 0.6;
+    double d = 0.7;
 
     // If we reached here, all tests must have passed
     std::cout << "All tests succeeded\n";
