@@ -228,7 +228,7 @@ To Remember:
 
 ------------------------------------------------------------------------------
 																			 |
-### 9.1 —     								 |
+### 9.3 — Common semantic errors in C++										 |
 																			 |
 ------------------------------------------------------------------------------
 
@@ -236,26 +236,211 @@ To Remember:
 ### Project Logic Overview ----------------------------------------------------------------------------------------------------------------------------------
 
 
+    C++ PROGRAMMING
+                       │
+        ┌──────────────┴──────────────┐
+        ↓                             ↓
+   Syntax correctness          Semantic correctness
+        │                             │
+   "Does C++ understand       "Does the program do
+      this code?"                 what I intended?"
+        │                             │
+        └──────────────┬──────────────┘
+                       ↓
+                Correct Program
 
 # Hands-on Doubts cleared: ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+🔴 Conditions
+
+=       // assign
+==      // compare
+
+if (x = 5)    // BUG: assigns
+if (x == 5)   // compare
+
+Mental check
+
+"Am I changing the value or checking the value?"
+
+🔄 Loops
+
+Ask 3 things:
+
+1. Where does it start?
+2. What makes it stop?
+3. What moves it toward the stop?
+
+Watch for:
+
+while (...) { }       // infinite loop risk
+unsigned count = 0;   // decrement → wraparound
+
+🎯 Off-by-one
+
+<     → excludes the limit
+<=    → includes the limit
+
+Ask:
+
+"Should the boundary be included?"
+
+🧠 Operator precedence
+
+If an expression makes you think twice:
+
+if (!x > y)
+
+don't guess.
+
+Use:
+
+if (!(x > y))
+
+Parentheses beat memory.
+
+🔢 Types change behavior
+
+5 / 3                  // 1
+static_cast<double>(5) / 3  // 1.666...
+
+Also remember:
+
+unsigned → no negatives
+float/double → precision is limited
+
+💀 Tiny syntax, huge consequences
+
+if (x);       // empty statement
+
+if (x)
+    a();
+    b();      // b() is NOT inside if
+
+Best:
+
+if (x)
+{
+    a();
+    b();
+}
+
+Braces make intent obvious.
+
+📞 Function call
+
+getValue()    // CALL function
+getValue      // function itself
+
+The second can undergo function-to-pointer conversion.
+
+In a stream, you may see an address-like function pointer value.
+
+() = DO ITno () = REFER TO IT
+
+
 ## New things I learned ------------------------------------------------------------------------------------------------------------------------------------------------------
 
+When output looks weird, run this checklist:
 
+□ Condition correct?
+□ = vs == ?
+□ Missing braces?
+□ Accidental ; ?
+□ Loop guaranteed to terminate?
+□ Unsigned near 0?
+□ Off-by-one?
+□ Operator precedence?
+□ Integer division?
+□ Floating-point equality?
+□ Forgot ()?
+□ Compiler warnings checked?
+
+
+🔥 The 10 Errors You Need to Remember
+#	Error	Typical mistake
+1	Conditional logic	
+>= instead of >
+
+2	Infinite loop	
+Forgetting to update loop variable
+
+3	Unsigned loop	
+unsigned >= 0
+
+4	Off-by-one	
+< instead of <=
+
+5	Operator precedence	
+!x > y
+
+6	Floating-point precision	
+0.1 + ... == 1.0
+
+7	Integer division	
+5 / 3 == 1
+
+8	Accidental null statement	
+if (x);
+
+9	Missing braces	
+Only first statement belongs to if
+
+10	= instead of ==	
+if (x = 5)
+
+11	Forgetting ()	
+getValue instead of getValue()
 
 
 # Best Practices
 
+Whenever your program gives a weird result, ask:
 
+□ Is my condition correct?
+□ Did I accidentally use = instead of ==?
+□ Did I forget braces?
+□ Did I accidentally put ; after if/while?
+□ Is my loop guaranteed to terminate?
+□ Am I using unsigned near zero?
+□ Did I make an off-by-one error?
+□ Is operator precedence doing something unexpected?
+□ Am I accidentally doing integer division?
+□ Am I comparing floating-point values directly?
+□ Did I forget () when calling a function?
 
 # * Additional *  ------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+The master model
+
+SYNTAX
+"What did I write?"
+        ↓
+SEMANTICS
+"What does it mean?"
+        ↓
+INTENTION
+"What did I actually want?"
+
+The compiler checks the first two.
+
+You must verify the third.
+
 
 
 
 # * Findings *  ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+✓ Compiles ≠ Correct
+✓ Valid C++ ≠ Correct logic
+✓ Indentation ≠ control flow
+✓ Types affect behavior
+✓ Tiny symbols can change everything
+✓ Context changes meaning
+✓ Tests catch semantic mistakes
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -264,34 +449,120 @@ To Remember:
 
 ------------------------------------------------------------------------------
 																			 |
-### 9.1 —     								 |
+### 9.4 — Detecting and handling errors                                      |
 																			 |
 ------------------------------------------------------------------------------
 
 
 ### Project Logic Overview ----------------------------------------------------------------------------------------------------------------------------------
 
+    
+    When reality violates your assumptions, how does your program communicate that failure safely?
 
+
+One final mental model :
+
+Put this in your C++ brain's permanent storage:
+
+             SOMETHING GOES WRONG
+                     │
+                     ▼
+              Can I fix it here?
+                /           \
+              YES            NO
+               │              │
+          handle locally      ▼
+                        Can I tell caller?
+                           /       \
+                         YES        NO
+                          │          │
+                    return error    fatal?
+                    optional        │
+                    expected        ▼
+                                  terminate
+
+                          OR
+
+                       exception
+                          │
+                          ▼
+                    propagate upward
+                          │
+                          ▼
+                        catch
 
 # Hands-on Doubts cleared: ---------------------------------------------------------------------------------------------------------------------------------------------------
 
+☐ A function can detect an error without necessarily being the right place to handle it.
+☐ bool can communicate simple success/failure to the caller.
+☐ A sentinel value is a special return value meaning “something went wrong”.
+☐ Sentinel values are dangerous if that value can also be a valid result.
+☐ std::optional<T> solves the “value or no value” problem cleanly.
+☐ std::expected<T, E> can represent “value or specific error”.
+☐ Exceptions allow an error to travel up the call stack until handled.
+☐ std::cerr is intended for error/diagnostic output, not normal output.
 
 ## New things I learned ------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
+* anticipate defensive programming (errors to happen and then handle)
+* 
+🧠 Error handling isn't just detecting errors. It's deciding who should handle them.
+🔄 Detect → Communicate → Handle/Recover is the core pattern.
+🚨 Not every error is recoverable. Some failures should terminate the program.
+🧩 bool → success/failure
+optional → value/no value
+expected → value/error
+exception → propagate failure
+🎯 Happy path + failure path = complete program thinking.
 
 # Best Practices
+
+
+The hidden lesson: Defensive Programming
+
+This connects directly to the previous lesson.
+
+    New programmer:
+
+    // Happy path only
+readFile();
+processFile();
+saveFile();
+
+    Experienced programmer:
+    // Sad path assumptions
+Can file fail?
+Can input be invalid?
+Can file be missing?
+Can network fail?
+Can memory allocation fail?
+Can caller pass invalid arguments?
+Can function return failure?
 
 
 
 # * Additional *  ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+☐ Errors are expected possibilities, not always bugs.
+☐ First ask: “Who can handle this error?”
+☐ Handle locally if the function can recover.
+☐ Otherwise communicate failure to the caller.
+☐ Common mechanisms: bool, sentinel value, std::optional, std::expected, exceptions.
+☐ Sentinel values work only when the value cannot be a valid result.
+☐ Fatal errors → terminate when continuing is unsafe.
+☐ Use std::cerr for error/diagnostic output.
+☐ Test the sad path, not just the happy path.
 
 # * Findings *  ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+🧠 Error handling = Detect → Communicate → Recover/Terminate
+🎯 The key design question: “Who is responsible for handling the failure?”
+⚠️ Never assume a function succeeded just because it returned.
+🔗 bool → simple success/failure.
+🔗 optional → value may or may not exist.
+🔗 expected → value or detailed error.
+🔗 Exceptions → propagate errors up the call stack.
+🧩 Robust programs are designed for failure paths, not only successful paths.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -300,68 +571,103 @@ To Remember:
 
 ------------------------------------------------------------------------------
 																			 |
-### 9.1 —     								 |
+### 9.1 —     				                                				 |
 																			 |
 ------------------------------------------------------------------------------
-
 
 ### Project Logic Overview ----------------------------------------------------------------------------------------------------------------------------------
 
 
 
-# Hands-on Doubts cleared: ---------------------------------------------------------------------------------------------------------------------------------------------------
+# Hands-on Doubts Cleared -----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+# Core Concept -----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+# Key Points ------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+# Important Classifications ----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+# How It Works   ----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# Real-World Examples ------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+# When to Use / When Not to Use ------------------------------------------------------------------------------------------------------------------------------
+
+
+
+# Pros ------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+# Cons / Limitations -----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+# Best Practices ---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+# Common Pitfalls / Gotchas ----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+# Things to Remember -----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+# Findings / Important Observations -------------------------------------------------------------------------------------------------------------------------
+
 
 
 ## New things I learned ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-
-# Best Practices
-
-
-
-# * Additional *  ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Key Takeaways ---------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-# * Findings *  ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Rule of Thumb (ROT) ---------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-------------------------------------------------------------------------------
-																			 |
-### 9.1 —     								 |
-																			 |
-------------------------------------------------------------------------------
-
-
-### Project Logic Overview ----------------------------------------------------------------------------------------------------------------------------------
+# Additional ------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-# Hands-on Doubts cleared: ---------------------------------------------------------------------------------------------------------------------------------------------------
+                 UNDERSTAND
+                     │
+             ┌───────┴────────┐
+             │                │
+          WHAT IS IT?      HOW IT WORKS
+             │                │
+             └───────┬────────┘
+                     ↓
+              WHEN TO USE IT
+                     ↓
+             TRADE-OFFS
+             ┌───────┴───────┐
+            PROS            CONS
+             └───────┬───────┘
+                     ↓
+              BEST PRACTICES
+                     ↓
+                GOTCHAS
+                     ↓
+             🧠 REMEMBER
 
-
-## New things I learned ------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-# Best Practices
-
-
-
-# * Additional *  ------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-# * Findings *  ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
