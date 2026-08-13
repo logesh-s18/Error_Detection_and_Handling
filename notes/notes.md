@@ -464,7 +464,7 @@ One final mental model :
 
 Put this in your C++ brain's permanent storage:
 
-             SOMETHING GOES WRONG
+             SOMETHING GOES WRONG IN A CALLEE FUNCTION
                      │
                      ▼
               Can I fix it here?
@@ -546,8 +546,10 @@ Can function return failure?
 ☐ Errors are expected possibilities, not always bugs.
 ☐ First ask: “Who can handle this error?”
 ☐ Handle locally if the function can recover.
+
 ☐ Otherwise communicate failure to the caller.
-☐ Common mechanisms: bool, sentinel value, std::optional, std::expected, exceptions.
+   Common mechanisms: bool, sentinel value, std::optional, std::expected, exceptions.
+
 ☐ Sentinel values work only when the value cannot be a valid result.
 ☐ Fatal errors → terminate when continuing is unsafe.
 ☐ Use std::cerr for error/diagnostic output.
@@ -571,7 +573,7 @@ Can function return failure?
 
 ------------------------------------------------------------------------------
 																			 |
-### 9.1 —     				                                				 |
+### 9.5 — std::cin and handling invalid input                  				 |
 																			 |
 ------------------------------------------------------------------------------
 
