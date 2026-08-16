@@ -593,7 +593,11 @@ Can function return failure?
 
 # Hands-on Doubts Cleared -----------------------------------------------------------------------------------------------------------------------------------
 
-
+* switch case labels act as entry point and goes downward including 'default' if there is no 'break' in 'case labels'.
+* input buffer gets carried. next inputs msgs in console can be seen without input value as the buffer automatically inserts it from code.
+* if the one line input data has valid values to keep in buffer, it gets carried properly without any 'cin' fail but the code structure view messed up.
+* early 'return' preferable, an idiomatic C++ way to write this specific function. It is cleaner, shorter, and easier to read. 
+* By removing the Loop flags (keepLog/isInvalid) or state variables (operation), you reduce the "cognitive load" (the amount of stuff a programmer has to keep in their memory while reading your code).
 
 
 # Core Concept -----------------------------------------------------------------------------------------------------------------------------------------------

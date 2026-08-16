@@ -1,4 +1,5 @@
 #include <iostream>
+using namespace std;
 
 double getDouble()
 {
@@ -61,11 +62,23 @@ void printResult(double x, char operation, double y)
 
 int main()
 {
-    double x{ getDouble() };
-    char operation{ getOperator() };
-    double y{ getDouble() };
+    //double x{ getDouble() };
+    //char operation{ getOperator() };
+    //double y{ getDouble() };
 
-    printResult(x, operation, y);
+    //printResult(x, operation, y);
+
+    string firstName;
+    string lastName;
+
+
+    cin >> firstName;
+
+    cin >> lastName;
+
+    std::cout << firstName << ' ' << lastName;
+
+
 
     return 0;
 }
