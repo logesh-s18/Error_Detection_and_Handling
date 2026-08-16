@@ -11,11 +11,32 @@ double getDouble()
 char getOperator()
 {
     // Error case 1: Extraction succeeds but input is meaningless
+    bool isValid = true;
+    char operation;
 
-    std::cout << "Enter one of the following: +, -, *, or /: ";
-    char op{};
-    std::cin >> op;
-    return op;
+    while (isValid) // loop it and ask again and again until user enters valid symbol, if valid....return it.
+    {
+        std::cout << "Enter one of the following: +, -, *, or /: ";
+        char op{};
+        std::cin >> op;
+
+        switch (op)
+        {
+            case '+':
+            case '-':
+            case '*':
+            case '/':
+                isValid = false;
+                operation = op;
+                break;
+
+            default:
+                std::cout << "\nOOPS!...that symbol is invalid, please try again...\n";
+        }
+
+    }
+
+    return operation;
 }
 
 void printResult(double x, char operation, double y)
