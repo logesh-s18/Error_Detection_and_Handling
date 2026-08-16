@@ -10,6 +10,8 @@ double getDouble()
 
 char getOperator()
 {
+    // Error case 1: Extraction succeeds but input is meaningless
+
     std::cout << "Enter one of the following: +, -, *, or /: ";
     char op{};
     std::cin >> op;
