@@ -26,10 +26,11 @@ char getOperator()
             case '-':
             case '*':
             case '/':
-                return op;
+                std::cout << "Cases\n";
+                //return op; // return it to the caller
 
-            default:
-                std::cout << "\nOOPS!...that symbol is invalid, please try again...\n";
+            default: // otherwise tell the user what went wrong
+                std::cout << "Default\n";
         }
 
     }
