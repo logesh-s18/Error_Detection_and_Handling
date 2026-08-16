@@ -1,28 +1,49 @@
 #include <iostream>
-using namespace std;
+
+double getDouble()
+{
+    std::cout << "Enter a decimal number: ";
+    double x{};
+    std::cin >> x;
+    return x;
+}
+
+char getOperator()
+{
+    std::cout << "Enter one of the following: +, -, *, or /: ";
+    char op{};
+    std::cin >> op;
+    return op;
+}
+
+void printResult(double x, char operation, double y)
+{
+    std::cout << x << ' ' << operation << ' ' << y << " is ";
+
+    switch (operation)
+    {
+    case '+':
+        std::cout << x + y << '\n';
+        return;
+    case '-':
+        std::cout << x - y << '\n';
+        return;
+    case '*':
+        std::cout << x * y << '\n';
+        return;
+    case '/':
+        std::cout << x / y << '\n';
+        return;
+    }
+}
 
 int main()
 {
+    double x{ getDouble() };
+    char operation{ getOperator() };
+    double y{ getDouble() };
 
-	int x{};
+    printResult(x, operation, y);
 
-
-	cout << "Enter the age : ";
-
-	int age;
-
-	cin >> age;
-
-
-	if (!cin)
-	{
-		cout << "invalid input! pls try again...\n";
-		std::cin.clear(); //fix cin failed state
-	}
-
-	if(cin)  // if cin state fixed before, then here the condition would pass 
-	{
-		cout << "you have entered " << age;
-	}
-	return 0;
+    return 0;
 }

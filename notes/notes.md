@@ -581,7 +581,18 @@ Can function return failure?
 
 
 
+* First, leading whitespace (spaces, tabs, and newlines at the front of the buffer) is discarded from the input buffer (with after values if takes place).
+* If the input buffer is now empty, operator>> will wait for the user to enter more data. Leading whitespace is discarded again and again and again....
+
+
+* If any characters were extracted, extraction is a success. The extracted characters are converted into a value that is then assigned to the variable.
+* If no characters could be extracted, extraction has failed. The object being extracted to is assigned the value 0 
+  (as of C++11), and any future extractions will immediately fail (until std::cin is cleared).
+
+
+
 # Hands-on Doubts Cleared -----------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
@@ -594,6 +605,30 @@ Can function return failure?
 
 
 # Important Classifications ----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+There are 3 basic ways to do input validation:
+
+* Inline (as the user types):
+
+      1. Prevent the user from typing invalid input in the first place.
+    
+* Post-entry (after the user types):
+
+      2. Let the user enter whatever they want into a string, then validate whether the string is correct, and if so, convert the string to the final variable format.      
+      3. Let the user enter whatever they want, let std::cin and operator>> try to extract it, and handle the error cases.
+
+
+
+4 Types of invalid text input
+
+
+    1. Input extraction succeeds but the input is meaningless to the program (e.g. entering ‘k’ as your mathematical operator).
+    2. Input extraction succeeds but the user enters additional input (e.g. entering ‘*q hello’ as your mathematical operator).
+    3. Input extraction fails (e.g. trying to enter ‘q’ into a numeric input).
+    4. Input extraction succeeds but the user overflows a numeric value
 
 
 
