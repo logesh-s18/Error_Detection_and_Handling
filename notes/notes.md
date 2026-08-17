@@ -621,7 +621,8 @@ There are 3 basic ways to do input validation:
     
 * Post-entry (after the user types):
 
-      2. Let the user enter whatever they want into a string, then validate whether the string is correct, and if so, convert the string to the final variable format.      
+      2. Let the user enter whatever they want into a string, then validate whether the string is correct, and if so, convert the string to the final variable format.
+      
       3. Let the user enter whatever they want, let std::cin and operator>> try to extract it, and handle the error cases.
 
 
@@ -637,6 +638,41 @@ There are 3 basic ways to do input validation:
 
 
 # How It Works   ----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+1. Console-la \n illana '\n' Type Pannal Enna Aagum?
+
+Main Point: 
+Console-la neenga literal ah \n illana single quotes oda '\n' nu type panna, program adha special "newline" command-ah eduthukkadhu. 
+Verum normal text/symbols ah dhaan paakum.
+
+
+Code vs Console Difference:
+
+C++ Code-la: 
+Neenga '\n' nu code la eludhuna, compiler adha purinjikittu orey oru invisible "newline" character-ah (ASCII 10) maathidum.
+
+
+Console-la:
+Console neenga type panradha compile pannaadhu. So, neenga '\n' nu quotes oda type panni Enter amukkuninga na, input buffer-la actually 5 different characters poi vizhum.
+
+
+Buffer-la vizhum andha 5 characters (for '\n'):
+
+        ' (Starting single quote)
+
+        \ (Backslash character)
+
+        n (Letter character)
+
+        ' (Ending single quote)
+
+Invisible newline character (Neenga Enter key press pannadhala create aaguradhu).
+
+
+Simple ah sollanumna: 
+Console-ku \n aagattum illana '\n' aagattum, ellame verum normal letters & symbols dhaan (just like typing 'A' or 'B'). 
+Nijamaana "newline" buffer-ku poganum na, neenga verum Enter key dhaan press pannanum!
 
 
 # Real-World Examples ------------------------------------------------------------------------------------------------------------------------------

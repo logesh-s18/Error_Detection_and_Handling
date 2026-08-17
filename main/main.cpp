@@ -20,7 +20,7 @@ double getDouble()
     std::cin >> x;
 
     //Error case 2: Extraction succeeds but with extraneous input
-    //ignoreLine(); 
+    ignoreLine(); 
 
     if (!cin) // cin fails if invalid value given
     {
@@ -84,12 +84,18 @@ void printResult(double x, char operation, double y)
 
 int main()
 {
-    double x{ getDouble() };
-    char operation{ getOperator() };
-    double y{ getDouble() };
+    //double x{ getDouble() };
+    //char operation{ getOperator() };
+    //double y{ getDouble() };
 
-    printResult(x, operation, y);
+    //printResult(x, operation, y);
 
+
+    string name;
+
+    cin >> name;
+
+    cout << "you hv entered : " << name;
    
     return 0;
 }
