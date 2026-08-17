@@ -20,7 +20,17 @@ double getDouble()
     std::cin >> x;
 
     //Error case 2: Extraction succeeds but with extraneous input
-    ignoreLine(); 
+    //ignoreLine(); 
+
+    if (!cin) // cin fails if invalid value given
+    {
+        std::cout << "cin failed   \n\n";
+    }
+    if (cin)
+    {
+        std::cout << "cin passed   \n\n";
+    }
+
     return x;
 }
 
