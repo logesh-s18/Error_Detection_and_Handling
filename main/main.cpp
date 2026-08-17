@@ -1,19 +1,33 @@
 #include <iostream>
 using namespace std;
 
+
+
+
+void ignoreLine()
+{
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');   //ignoring the maximum buffer characters until a new line '\n'
+   
+    
+    //std::cin.ignore(3, '\n');   //ignoring the buffer characters until a new line '\n' -> Manual way : ignores until the given position number
+}
+
+
 double getDouble()
 {
     std::cout << "Enter a decimal number: ";
     double x{};
     std::cin >> x;
+
+    //Error case 2: Extraction succeeds but with extraneous input
+    ignoreLine(); 
     return x;
 }
 
 char getOperator()
 {
     // Error case 1: Extraction succeeds but input is meaningless
-    //bool isValid = true;
-    //char operation;
+
 
     while (true) // loop it and ask again and again until user enters valid symbol, if valid....return it.
     {
@@ -27,16 +41,14 @@ char getOperator()
             case '-':
             case '*':
             case '/':
-                std::cout << "Cases\n";
-                //return op; // return it to the caller
+                return op; // return it to the caller
 
             default: // otherwise tell the user what went wrong
-                std::cout << "Default\n";
+                std::cout << "OOPS!...that value is invalid, please try again...\n";
         }
 
     }
 
-    //return operation;
 }
 
 void printResult(double x, char operation, double y)
@@ -62,23 +74,12 @@ void printResult(double x, char operation, double y)
 
 int main()
 {
-    //double x{ getDouble() };
-    //char operation{ getOperator() };
-    //double y{ getDouble() };
+    double x{ getDouble() };
+    char operation{ getOperator() };
+    double y{ getDouble() };
 
-    //printResult(x, operation, y);
+    printResult(x, operation, y);
 
-    string firstName;
-    string lastName;
-
-
-    cin >> firstName;
-
-    cin >> lastName;
-
-    std::cout << firstName << ' ' << lastName;
-
-
-
+   
     return 0;
 }
