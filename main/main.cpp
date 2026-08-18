@@ -94,7 +94,12 @@ int main()
 {
     char ch1, ch2, ch3, ch4, ch5; // i will enter abcd -> goes to buffer  .... not a b c d as ' ' space gets included as character too
 
+
+    std::cin.putback('Q');
+
     std::cin >> ch1; // 'a' gets assigned  ~~~~ Buffer = b c d
+
+    std::cin.putback('O');
 
     ch2 = std::cin.peek(); // 'b' peeked, assigned to ch2 but no move of target position pointer ~~~~~~ ch2 = b
 
