@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits> // for numeric limits
 using namespace std;
 
 
@@ -92,29 +93,11 @@ void printResult(double x, char operation, double y)
 
 int main()
 {
-    char ch1, ch2, ch3, ch4, ch5; // i will enter abcd -> goes to buffer  .... not a b c d as ' ' space gets included as character too
 
+    int x;
 
-    std::cin.putback('Q');
+    std::cin >> x; // automatcically blinks in terminal asking for a input
 
-    std::cin >> ch1; // 'a' gets assigned  ~~~~ Buffer = b c d
-
-    std::cin.putback('O');
-
-    ch2 = std::cin.peek(); // 'b' peeked, assigned to ch2 but no move of target position pointer ~~~~~~ ch2 = b
-
-    std::cin.get(ch3); // ch3 = b, tpp moved next to 'c'
-
-    std::cin.putback('L'); // goes back to 'b' position and puts back/uploads 'L'  ~~~~ Buffer = L c d
-
-    std::cin.get(ch4); // ch4 = 'L' ~~~~ Buffer = c d
-
-    std::cin.get(ch5); //  ch5 = 'c' ~~~~~~ Buffer = d
-
-
-    std::cout << ch1 << ' ' << ch2 << ' ' << ch3 << ' ' << ch4 << ' ' << ch5 << '\n'; 
-
-    //Output = a b b L c
-
+    cout << "x is : " << x << '\n';
     return 0;
 }
