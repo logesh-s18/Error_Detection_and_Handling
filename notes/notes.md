@@ -600,7 +600,63 @@ Can function return failure?
 * By removing the Loop flags (keepLog/isInvalid) or state variables (operation), you reduce the "cognitive load" (the amount of stuff a programmer has to keep in their memory while reading your code).
 
 
+      !std::cin.eof() && std::cin.peek() != '\n' 
+      
+            ^                       ^
+           true                    true             --> means, There is still input available (not a end of file), and the next character isn't the end of the current line (not a '\n' newline) 
+                                                        then it has "un extracted values"..
+
+                                                        The input stream hasn't reached its end, and the next character isn't a newline, so there may be unextracted input remaining on the current line.
+
 # Core Concept -----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+cin >> :
+            INPUT STREAM
+                  │
+                  ▼
+        '1' '2' '3' '\n'
+                  │
+          ┌───────┴────────┐
+          │                │
+       formatted       unformatted
+       extraction       extraction
+          │                │
+       >> int           get()
+          │                │
+    "interpret this"   "give me
+          │             this char"
+          ▼                ▼
+       123               '1'
+
+
+
+
+>>          → formatted extraction to the requested type
+get()       → unformatted character extraction
+
+
+    -------------------------------------------------                                                                    
+    | std::cin >> value                             |                                                                            
+    |         ↓                                     |                                                                                         
+    | formatted extraction                          |                                                                                       
+    |         ↓                                     |                                                                                                                                          
+    | usually SKIPS leading whitespace              |                                                       
+    |         ↓                                     |             
+    | extracts the requested value                  |                                                                           
+    |                                               |                                                                                 
+    |------------------------------------------------
+    |                                               |                 
+    |                                               |                         
+    | std::cin.get(ch)                              |     
+    |         ↓                                     |     
+    | character extraction                          |     
+    |         ↓                                     |     
+    | DOES NOT skip whitespace                      |     
+    |         ↓                                     |     
+    | takes whatever character is currently there   |     
+    | ______________________________________________|                         
+
 
 
 
@@ -618,6 +674,7 @@ Can function return failure?
 * std::ws        - tells the input stream to consume and discard all whitespace characters currently at the beginning of the stream, such as spaces, tabs, and newlines.
 
 * std::get(..)   - extracts the character at the current input position and advances the current position to the next character.
+                    NOTE : it doesnt skips whitespaces.
 
 * std::peek()    - looks at the character at the current input position and can return it,
                    but does not consume it or advance the current position.
