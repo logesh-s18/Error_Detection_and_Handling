@@ -696,6 +696,9 @@ get()       → take from FRONT ✋ → FRONT moves forward
 putback(c)  → put c at FRONT on current target position ↩️
 
 
+std::cin.get()       → character-level extraction
+std::getline()       → line-level extraction into std::string
+
 
 ┌──────────────┬──────────────────────────────────────┐
 │ Operation    │ Visual behavior                      │
@@ -880,30 +883,113 @@ Nijamaana "newline" buffer-ku poganum na, neenga verum Enter key dhaan press pan
 # Additional ------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+🎯 Interview Q&A
 
-                 UNDERSTAND
-                     │
-             ┌───────┴────────┐
-             │                │
-          WHAT IS IT?      HOW IT WORKS
-             │                │
-             └───────┬────────┘
-                     ↓
-              WHEN TO USE IT
-                     ↓
-             TRADE-OFFS
-             ┌───────┴───────┐
-            PROS            CONS
-             └───────┬───────┘
-                     ↓
-              BEST PRACTICES
-                     ↓
-                GOTCHAS
-                     ↓
-             🧠 REMEMBER
+
+```Q: Does std::cin >> discard all whitespace, and can std::cin.peek() see a space ?```
+
+A: No. std::cin >> skips leading whitespace before its next formatted extraction, 
+   but it does not automatically discard spaces occurring after the value it just extracted. 
+   std::cin.peek() sees the exact next character without consuming it, so it can return ' '.
 
 
 
+```Q: If std::cin >> skips whitespace, how can std::cin.peek() still see a space after extracting a value ?```
+
+A: operator>> skips whitespace only when it begins its own formatted extraction. 
+   It does not automatically remove whitespace that appears after the value it has just extracted. 
+   Therefore, a space can remain as the next character, and peek() observes that exact character without consuming it.
+
+
+   Code sample for peek() :
+
+        // Input: 25 abc\n
+
+        int x{};
+        std::cin >> x;       // x = 25, space can remain
+
+        char ch = std::cin.peek();  // ch = ' '
+
+        std::cout << (ch != '\n'); // true
+
+
+
+
+
+📊 Complete Logic Table
+
+!eof()	        peek() != '\n'	        Logic	                        Meaning
+true	        true	                true && true →   true	        Input innum irukku + next char newline illa → innum extract panna value irukku ✅
+true	        false	                true && false →  false	        Input innum irukku, aana next char '\n' → current line mudinjiduchu
+false	        true	                false && true →  false	        EOF reached → input source-la inime edhuvum illa ❌ EOF (true) + whatever (no need to consider)
+false	        false	                false && false → false	        EOF reached → input source-la inime edhuvum illa ❌ EOF (true) + No more values in buffer and it reached newline
+
+
+hasUnExtractedInputs() — Boolean Logic
+
+bool hasUnExtractedInputs()
+{
+    return !std::cin.eof() && std::cin.peek() != '\n';
+}
+
+```true && true```
+
+
+* !eof() → true = input innum mudiyala.
+
+* peek() != '\n' → true = next character \n illa.
+
+* true && true → true.
+
+* Function result true → current line-la innum extract panna value irukku. ✅
+
+
+```true && false```
+
+* !eof() → true = input innum mudiyala.
+
+* peek() != '\n' → false = next character \n ah irukku.
+
+* true && false → false.
+
+* Function result false → current line-la innum extract panna value illa. ❌
+
+
+
+```false && true```
+
+* !eof() → false = input mudinjiduchu.
+
+* peek() != '\n' → true = next character \n illa.
+
+* false && true → false.
+
+* Function result false → input source mudinjiduchu, so innum extract panna input illa. ❌
+
+Note: Genuine EOF-la peek()-ku normal next character irukkaadhu, so false && true is mainly a logical combination, not a normal buffer situation.
+
+
+  If std::cin.eof() is genuinely already true, peek() isn't guaranteed to give you a meaningful next character. 
+   So false && true is mainly a logical combination, not a normal real-world stream state you should try to construct.
+
+
+
+```false && false```
+
+* !eof() → false = input mudinjiduchu.
+
+* peek() != '\n' → false = next character \n ah irukku.
+
+* false && false → false.
+
+* Function result false → input source mudinjiduchu, so innum extract panna input illa. ❌
+
+Note: Genuine EOF and a normal \n simultaneously being the next character is not a normal stream situation.
+
+
+
+
+ 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------

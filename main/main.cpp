@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits> // for numeric limits
+#include <string> // for getline()
 using namespace std;
 
 
@@ -120,8 +121,27 @@ void printResult(double x, char operation, double y)
 int main()
 {
 
-    double x{ getDouble() };
-    char operation{ getOperator() };
-    double y{ getDouble() };
+    /*
+    
+    
+    whats my thought of the day?
+
+    ~ how about giving two string inputs in buffer, then check if cin.get() assigns for string var as string or char
+    
+    
+    
+    */
+
+
+    string first_name;
+    string last_name;
+    char ch;
+
+
+    std::getline(std::cin, first_name); // getline() for string
+    std::cin.get(ch); // cin.get() for char
+
+    cout << "Value : " << first_name << ' ' << ch;
+
     return 0;
 }
