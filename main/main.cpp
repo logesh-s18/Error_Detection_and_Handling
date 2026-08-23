@@ -144,7 +144,7 @@ int main()
 
     cin >> age; // ok
 
-    getline(cin, name); //not ok
+    getline(cin>>ws, name); //ok
 
     cout << "Hi " << name << ' '
         << "your age is " << age;

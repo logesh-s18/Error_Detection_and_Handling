@@ -735,6 +735,29 @@ std::getline()       → line-level extraction into std::string
 └──────────────┴──────────────────────────────────────┘
 
 
+----------------------------------------------------------------------------
+
+
+Mental Model: Console input becomes available in the standard input stream. std::cin later extracts that input according to the operation being used.
+
+                         INPUT STREAM
+                              │
+                              ▼
+                    '1'  '2'  '3'  '\n'
+                              │
+                 ┌────────────┴────────────┐
+                 │                         │
+          FORMATTED EXTRACTION      UNFORMATTED EXTRACTION
+                 │                         │
+              `cin >>`                  `get()`
+                 │                         │
+          "Interpret as a type"       "Take character"
+                 │                         │
+                 ▼                         ▼
+                123                       '1'
+
+
+
 
 
 # Important Classifications ----------------------------------------------------------------------------------------------------------------------------------
