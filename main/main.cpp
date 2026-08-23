@@ -12,8 +12,8 @@ void ignoreLine()
    
     //std::cin.ignore(3, '\n');   //ignoring the buffer characters until a new line '\n' -> Manual way : ignores until the given position number
 
-    cout << "ignoring the extra buffer inputs... \n"; 
-    cout << "Please try again... \n";
+    //cout << "ignoring the extra buffer inputs... \n"; 
+    //cout << "Please try again... \n";
 }
 
 // *** Error case 2: Extraction succeeds but with extraneous input ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -39,41 +39,12 @@ double getDouble()
 
 
         // *** Error case 3: Extraction fails ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // I have implemented this with my own logical thinking. Proud of you Loki!!!!
-        if (std::cin.fail())  // ---> or use `
-        {
+        bool success{ std::cin }; // Remember whether we had a successful extraction
+        std::cin.clear();          // Put us back in 'normal' operation mode (in case we failed)
+        ignoreLine();              // Ignore any additional input on this line (regardless)
 
-            cout << "INPUT STREAM (cin) FAILURE \n";
-
-            std::cin.clear();  // recover cin state from failure
-            cout << "Recovered cin failure. its up now! \n\n";
-
-            // Ok, now how about we print the buffer which caused failure of cin ? below steps taken
-            string buffer;
-
-            cin >> buffer;
-
-            cout << "After cin recovery, the buffer still inside is : " << buffer << "\n\n";  //likethis we can check the buffer which made cin fail
-            
-            ignoreLine(); //after showing to user about the existing buffer came in console, remove the extra input buffers which is in console
-
-            continue; // skip the rest of iteration and go back, ask again user to enter
-
-        }
-
-
-        // *** Error case 2: Extraction succeeds but with extraneous input  ---------------------------------------------------------------------------------------------------------------------------------------
-        // In certain cases, it may be better to treat extraneous input as a failure case (rather than just ignoring it). We can then ask the user to re-enter their input.
-        if (hasUnExtractedInputs())
-        {
-            cout << "Found Un Extracted Inputs inside input stream buffer!!! \n";  // Alert the user in console
-
-            ignoreLine(); //remove the extra input buffers which is in console
-            
-            continue; //skip the remaining executions and go back to next iteration
-        }
-
-        return x; //we got the User Input after the Error handling and validation
+        if (success)               // If we actually extracted a value
+            return x;
 
     }
 }
