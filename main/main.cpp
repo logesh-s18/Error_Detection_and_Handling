@@ -15,6 +15,9 @@ void ignoreLine()
     cout << "ignoring the extra buffer inputs... \n"; 
 }
 
+//Error case 2: Extraction succeeds but with extraneous input
+//
+//to check buffer inputs after formatted 
 bool hasUnExtractedInputs()
 {
     return !std::cin.eof() && std::cin.peek() != '\n';
@@ -81,6 +84,8 @@ char getOperator()
         char op{};
         std::cin >> op;
 
+
+        // arithmetic operator symbol validation
         switch (op)
         {
             case '+':
@@ -120,28 +125,27 @@ void printResult(double x, char operation, double y)
 
 int main()
 {
+    //double operand_1{ getDouble() };
 
-    /*
-    
-    
-    whats my thought of the day?
+    //char operation{getOperator()};
 
-    ~ how about giving two string inputs in buffer, then check if cin.get() assigns for string var as string or char
-    
-    
-    
-    */
+    //double operand_2{ getDouble() };
+
+    //printResult(operand_1, operation, operand_2);
 
 
-    string first_name;
-    string last_name;
-    char ch;
+    int age;
 
+    string name;
 
-    std::getline(std::cin, first_name); // getline() for string
-    std::cin.get(ch); // cin.get() for char
+   
 
-    cout << "Value : " << first_name << ' ' << ch;
+    getline(cin, name); //ok
+
+    cin >> age; // ok
+
+    cout << "Hi " << name << ' '
+        << "your age is " << age;
 
     return 0;
 }
