@@ -34,11 +34,11 @@ double getDouble()
 
 
         // I have implemented this with my own logical thinking. Proud of you Loki!!!!
-        if (!std::cin)  
+        if (std::cin.fail())  // ---> or use std::cin.fail()
         {
             cout << "INPUT STREAM (cin) FAILURE \n";
 
-            std::cin.clear();  // likethis also we can avoid the infinite loop and recover cin state
+            std::cin.clear();  // recover cin state from failure
             cout << "Recovered cin failure. its up now! \n\n";
 
 
@@ -125,29 +125,13 @@ void printResult(double x, char operation, double y)
 
 int main()
 {
-    //double operand_1{ getDouble() };
+    double operand_1{ getDouble() };
 
-    //char operation{getOperator()};
+    char operation{getOperator()};
 
-    //double operand_2{ getDouble() };
+    double operand_2{ getDouble() };
 
-    //printResult(operand_1, operation, operand_2);
-
-
-    int age;
-
-    string name;
-
-   
-
-   
-
-    cin >> age; // ok
-
-    getline(cin>>ws, name); //ok
-
-    cout << "Hi " << name << ' '
-        << "your age is " << age;
+    printResult(operand_1, operation, operand_2);
 
     return 0;
 }

@@ -1071,6 +1071,12 @@ hasUnExtractedInputs() — Boolean Logic
 * Enter gives '\n'; when there is nothing left to read, the stream reaches EOF.
 
 
+``` why peek()? why not cin.get(T) ?```
+get() is an extraction operation, while peek() is an inspection operation. 
+Since this function only needs to check the current character, peek() matches the function's purpose.
+But get() technically valid if we going to use ignore() to remove the buffer and asking user to re enter the input later.
+
+
 
 
 📊 Complete Logic Table
