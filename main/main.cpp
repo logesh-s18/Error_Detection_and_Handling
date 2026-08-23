@@ -13,9 +13,10 @@ void ignoreLine()
     //std::cin.ignore(3, '\n');   //ignoring the buffer characters until a new line '\n' -> Manual way : ignores until the given position number
 
     cout << "ignoring the extra buffer inputs... \n"; 
+    cout << "Please try again... \n";
 }
 
-//Error case 2: Extraction succeeds but with extraneous input
+// *** Error case 2: Extraction succeeds but with extraneous input ----------------------------------------------------------------------------------------------------------------------------------------------
 //
 //to check buffer inputs after formatted 
 bool hasUnExtractedInputs()
@@ -24,8 +25,12 @@ bool hasUnExtractedInputs()
 }
 
 
+
+
 double getDouble()
 {
+
+    //keep looping, if there is a value, then 'return' will end this infinite loop
     while (true)
     {
         std::cout << "Enter a decimal number: ";
@@ -33,14 +38,19 @@ double getDouble()
         std::cin >> x;   // entering a invalid value to the allocatted type make cin fail and assigns 0 and will create a INFINITE LOOOP!!!!
 
 
+        // *** Error case 3: Extraction fails ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         // I have implemented this with my own logical thinking. Proud of you Loki!!!!
-        if (std::cin.fail())  // ---> or use std::cin.fail()
+        if (std::cin.fail())  // ---> or use `
         {
+
+            ignoreLine(); // Testing 1 - will it work even cin failure? - NO
+
             cout << "INPUT STREAM (cin) FAILURE \n";
 
             std::cin.clear();  // recover cin state from failure
             cout << "Recovered cin failure. its up now! \n\n";
 
+            ignoreLine(); // Testing 2 - will it work after cin recovery from failure state? - YES, and it expects new inputs on the next extraction after clearing the old 
 
             // Ok, now how about we print the buffer which caused failure of cin ? below steps taken
             string buffer;
@@ -48,26 +58,26 @@ double getDouble()
             cin >> buffer;
 
             cout << "After cin recovery, the buffer still inside is : " << buffer << "\n\n";  //likethis we can check the buffer which made cin fail
+            
+            ignoreLine(); //remove the extra input buffers which is in console
 
             continue; // skip the rest of iteration and go back, ask again user to enter
 
         }
 
 
-
+        // *** Error case 2: Extraction succeeds but with extraneous input  ---------------------------------------------------------------------------------------------------------------------------------------
         // In certain cases, it may be better to treat extraneous input as a failure case (rather than just ignoring it). We can then ask the user to re-enter their input.
         if (hasUnExtractedInputs())
         {
             cout << "Found Un Extracted Inputs inside input stream buffer!!! \n";  // Alert the user in console
 
-            //Error case 2: Extraction succeeds but with extraneous input
-            ignoreLine();
-
-            cout << "Please try again... \n";
-            continue;
+            ignoreLine(); //remove the extra input buffers which is in console
+            
+            continue; //skip the remaining executions and go back to next iteration
         }
 
-        return x;
+        return x; //we got the User Input after the Error handling and validation
 
     }
 }
@@ -75,9 +85,7 @@ double getDouble()
 
 char getOperator()
 {
-    // Error case 1: Extraction succeeds but input is meaningless
-
-
+    // *** Error case 1: Extraction succeeds but input is meaningless --------------------------------------------------------------------------------------------------------------------------------------------
     while (true) // loop it and ask again and again until user enters valid symbol, if valid....return it.
     {
         std::cout << "Enter one of the following: +, -, *, or /: ";

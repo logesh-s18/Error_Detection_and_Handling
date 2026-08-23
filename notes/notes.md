@@ -735,31 +735,6 @@ std::getline()       → line-level extraction into std::string
 └──────────────┴──────────────────────────────────────┘
 
 
-----------------------------------------------------------------------------
-
-
-Mental Model: Console input becomes available in the standard input stream. std::cin later extracts that input according to the operation being used.
-
-                         INPUT STREAM
-                              │
-                              ▼
-                    '1'  '2'  '3'  '\n'
-                              │
-                 ┌────────────┴────────────┐
-                 │                         │
-          FORMATTED EXTRACTION      UNFORMATTED EXTRACTION
-                 │                         │
-              `cin >>`                  `get()`
-                 │                         │
-          "Interpret as a type"       "Take character"
-                 │                         │
-                 ▼                         ▼
-                123                       '1'
-
-
-
-
-
 # Important Classifications ----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1001,6 +976,43 @@ A: The program may ask the user to enter another value because the spaces after 
 
 
 ## New things I learned ------------------------------------------------------------------------------------------------------------------------------------------------------
+
+```Error case 3: Extraction fails```
+
+Extraction fails when no input can be extracted to the specified variable.
+
+Now consider the following execution of our updated calculator program:
+
+    Enter a decimal number: a
+You shouldn’t be surprised that the program doesn’t perform as expected, but how it fails is interesting:
+
+    Enter a decimal number: a
+    Enter one of the following: +, -, *, or /: Oops, that input is invalid.  Please try again.
+    Enter one of the following: +, -, *, or /: Oops, that input is invalid.  Please try again.
+    Enter one of the following: +, -, *, or /: Oops, that input is invalid.  Please try again.
+    and that last line keeps printing until the program is closed.........
+    .....
+    ...
+    .....
+    .....(infinite looop)...
+
+This looks pretty similar to the extraneous input case, but it’s a little different. Let’s take a closer look.
+
+When the user enters ‘a’, that character is placed in the buffer. Then operator>> tries to extract ‘a’ to variable x, which is of type double. Since ‘a’ can’t be converted to a double, operator>> can’t do the extraction. Two things happen at this point: ‘a’ is left in the buffer, and std::cin goes into “failure mode”.
+
+Once in “failure mode”, future requests for input extraction will silently fail. Thus in our calculator program, the output prompts still print, but any requests for further extraction are ignored. This means that instead waiting for us to enter an operation, the input prompt is skipped, and we get stuck in an infinite loop because there is no way to reach one of the valid cases.
+
+
+In order to get std::cin working properly again, we typically need to do three things:
+
+1. Detect that a prior extraction has failed.
+2. Put std::cin back in normal operation mode.
+3. Remove the input that caused the failure (so the next extraction request doesn’t fail in an identical manner).
+
+
+* Once an extraction has failed, future requests for input extraction (including calls to ignore()) will silently fail until the clear() function is called. 
+  Thus, after detecting a failed extraction, calling clear() is usually the first thing you should do.
+
 
 
 
