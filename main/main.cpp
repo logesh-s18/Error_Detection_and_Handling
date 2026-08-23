@@ -43,14 +43,10 @@ double getDouble()
         if (std::cin.fail())  // ---> or use `
         {
 
-            ignoreLine(); // Testing 1 - will it work even cin failure? - NO
-
             cout << "INPUT STREAM (cin) FAILURE \n";
 
             std::cin.clear();  // recover cin state from failure
             cout << "Recovered cin failure. its up now! \n\n";
-
-            ignoreLine(); // Testing 2 - will it work after cin recovery from failure state? - YES, and it expects new inputs on the next extraction after clearing the old 
 
             // Ok, now how about we print the buffer which caused failure of cin ? below steps taken
             string buffer;
@@ -59,7 +55,7 @@ double getDouble()
 
             cout << "After cin recovery, the buffer still inside is : " << buffer << "\n\n";  //likethis we can check the buffer which made cin fail
             
-            ignoreLine(); //remove the extra input buffers which is in console
+            ignoreLine(); //after showing to user about the existing buffer came in console, remove the extra input buffers which is in console
 
             continue; // skip the rest of iteration and go back, ask again user to enter
 
