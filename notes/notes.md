@@ -1370,7 +1370,14 @@ Note: Genuine EOF and a normal \n simultaneously being the next character is not
 
 
 
+### Conclusion ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+As you write your programs, consider how users will misuse your program, especially around text input. For each point of text input, consider:
+
+Could extraction fail?
+Could the user enter more input than expected?
+Could the user enter meaningless input?
+Could the user overflow an input?
  
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------

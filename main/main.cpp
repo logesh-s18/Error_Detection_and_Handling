@@ -64,7 +64,7 @@ double getDouble()
         }
 
         // SUCCESS CASE : if extraction success but in case extra buffer, we directly ignore
-        ignoreLine();
+        ignoreLine(); // just for safer case, whether extra buffer inputs is not or there even if its a successful extraction, just clean
         return x; //we got the User Input after the Error handling and validation
 
     }
