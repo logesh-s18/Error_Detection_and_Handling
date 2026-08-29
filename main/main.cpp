@@ -88,7 +88,7 @@ char getOperator()
         }
 
         // arithmetic operator symbol validation
-        switch (op)
+        switch (op) //if extraction failed, buufer will be empty and this gets skipped
         {
             case '+':
             case '-':
