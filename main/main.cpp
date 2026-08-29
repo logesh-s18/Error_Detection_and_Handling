@@ -98,7 +98,7 @@ char getOperator()
 
             default: // otherwise tell the user what went wrong
                 std::cout << "OOPS!...that value is invalid, please try again...\n";
-                continue; 
+                continue; // even if failed extraction
         }
 
     }
