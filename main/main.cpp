@@ -133,7 +133,7 @@ int main()
 
     double operand_1{ getDouble() };    // check - cin fail [ if eof - terminate, else recover & ignore buffer] / cin success [ ignore buffer ], continue ask again
 
-    char operation{getOperator()}; // check - cin fail [ if eof - terminate, else recover & ignore buffer] / cin success [ ignore buffer ], cin symbol check, default invalid
+    char operation{getOperator()}; // check - cin fail [ if eof - terminate, else recover & ignore buffer] / cin success [ ignore buffer ], cin symbol check, default invalid, continue ask again
 
     double operand_2{ getDouble() };  // check - cin fail [ if eof - terminate, else recover & ignore buffer] / cin success [ ignore buffer ], continue ask again
 
