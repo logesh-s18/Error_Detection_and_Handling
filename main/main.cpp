@@ -6,7 +6,7 @@ using namespace std;
 
 
 
-void ignoreLine()
+void ignoreLine() //ignore extra buffer from input stream
 {
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');   //ignoring the maximum buffer characters until a new line '\n', later ^Z(Ctrl+Z) can be not valid for eof, but it also removes the trailing newline char in buffer
 }
@@ -14,7 +14,7 @@ void ignoreLine()
 // *** Error case 2: Extraction succeeds but with extraneous input ----------------------------------------------------------------------------------------------------------------------------------------------
 //
 //to check buffer inputs after formatted 
-bool hasUnExtractedInputs()
+bool hasUnExtractedInputs()  // check if the extra input is a valid values or eof
 {
 
     return !std::cin.eof() && std::cin.peek() != '\n';
@@ -131,20 +131,20 @@ void printResult(double x, char operation, double y)
 int main()
 {
 
-    double operand_1{ getDouble() };
+    double operand_1{ getDouble() };    // check - cin fail [ if eof - terminate, else recover & ignore buffer] / cin success [ ignore buffer ], continue ask again
 
-    char operation{getOperator()};
+    char operation{getOperator()}; // check - cin fail [ if eof - terminate, else recover & ignore buffer] / cin success [ ignore buffer ], cin symbol check, default invalid
 
-    double operand_2{ getDouble() };
+    double operand_2{ getDouble() };  // check - cin fail [ if eof - terminate, else recover & ignore buffer] / cin success [ ignore buffer ], continue ask again
 
-    while (operation == '/' && operand_2 == 0.0)  // check the divior if 0.0 (undefined)
+    while (operation == '/' && operand_2 == 0.0)  // check the divisor if 0.0 (undefined)
     {
         cout << "Undefined value for division...Try again with valid divisor\n";
         operand_2 = getDouble(); // get the value again from user and again check the loop if entered value is not 0.0 for divisor
 
     }
 
-    printResult(operand_1, operation, operand_2);
+    printResult(operand_1, operation, operand_2); // good for the calculation and printing it
 
     return 0;
 }
