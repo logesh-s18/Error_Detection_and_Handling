@@ -131,11 +131,11 @@ void printResult(double x, char operation, double y)
 int main()
 {
 
-    double operand_1{ getDouble() };    // check - cin fail [ if eof - terminate, else recover & ignore buffer] / cin success [ ignore buffer ], continue ask again
+    double operand_1{ getDouble() };    // check - cin fail [ if eof - terminate, else recover & ignore buffer, continue ask again] / cin success [ ignore buffer ]
 
     char operation{getOperator()}; // check - cin fail [ if eof - terminate, else recover & ignore buffer] / cin success [ ignore buffer ], cin symbol check, default invalid, continue ask again
 
-    double operand_2{ getDouble() };  // check - cin fail [ if eof - terminate, else recover & ignore buffer] / cin success [ ignore buffer ], continue ask again
+    double operand_2{ getDouble() };  // check - cin fail [ if eof - terminate, else recover & ignore buffer, continue ask again] / cin success [ ignore buffer ]
 
     while (operation == '/' && operand_2 == 0.0)  // check the divisor if 0.0 (undefined)
     {
