@@ -1,6 +1,5 @@
 #include <iostream>
 #include <limits> // for numeric limits    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  
-#include <string> // for getline()
 using namespace std;
 
 
@@ -112,19 +111,22 @@ void printResult(double x, char operation, double y)
 	{
 
 		case '+':
-			cout << x + y;
+			cout << x + y << '\n';
 			return;
 
 		case '-':
-			cout << x - y;
-			break;
+			cout << x - y << '\n';
+			return;
 
 		case '*':
-			cout << x * y;
+			cout << x * y << '\n';
 			return;
 
 		case '/':
-			cout << x / y;
+			if (y == 0)
+				break;
+
+			cout << x / y << '\n';
 			return;
 
 	}
@@ -136,22 +138,22 @@ void printResult(double x, char operation, double y)
 int main()
 {
 
-	double operator_1{getDouble()};
+	double operand_1{getDouble()};
 	
 	char operation{getSymbol()};
 
-	double operator_2{ getDouble() };
+	double operand_2{ getDouble() };
 
 	//divisor 0 (undefined) check
-	while (operation == '/' && operator_2 == 0)
+	while (operation == '/' && operand_2 == 0)
 
 	{
-		cout << "0 is undefined dividend, please try again with valid value...\n";
-		operator_2 = getDouble();
+		cout << "The divisor cannot be zero, please try again with a valid value...\n";
+		operand_2 = getDouble();
 	}
 
 
-	printResult(operator_1, operation, operator_2);
+	printResult(operand_1, operation, operand_2);
 
 	return 0;
 }
