@@ -1,150 +1,155 @@
 #include <iostream>
-#include <limits> // for numeric limits
+#include <limits> // for numeric limits    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  
 #include <string> // for getline()
 using namespace std;
 
 
-
-
-void ignoreLine() //ignore extra buffer from input stream
+void ignoreLine()
 {
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');   //ignoring the maximum buffer characters until a new line '\n', later ^Z(Ctrl+Z) can be not valid for eof, but it also removes the trailing newline char in buffer
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-// *** Error case 2: Extraction succeeds but with extraneous input ----------------------------------------------------------------------------------------------------------------------------------------------
-//
-//to check buffer inputs after formatted 
-bool hasUnExtractedInputs()  // check if the extra input is a valid values or eof
-{
 
-    return !std::cin.eof() && std::cin.peek() != '\n';
+
+bool hasBufferInputs()
+{
+	return (!cin.eof() && cin.peek() != '\n');  // de morgan's law ->  not [cin.eof() || cin.peek() == '\n']
 }
 
-bool clearFailedExtraction()
+bool clearFailedStream()
 {
-    // check for cin health status
-    
-    // 1. if failed, recover cin and then remove the buffer from input stream which caused failure
-    if (std::cin.fail())
-    {
-        if (std::cin.eof()) // 2. check if the failure is beacause of EOF
-        {
-            cout << "EOF occured....exiting the prgram...\n";
-            std::exit(0); //termiante program
-        }
+	if (cin.fail()) //check for cin failure
+	{ 
+		if (cin.eof())  // check for eof occurence
+		{
+			cout << "EOF Occurred!....terminating the program\n";
 
-        std::cin.clear(); // 3. recover cin
-        ignoreLine();     //  4. remove the buffer which caused failure
-    
-        return true;  // indicating "Yes, extraction failure happened, and recovered
-    }
+			std::exit(0); //terminate
+		}
 
-    cout << "No Extraction failure.\n";
-    return false;  // indicating there's no extraction failure.
+		cin.clear(); //recover
+		ignoreLine(); // ignore buffer which caused failure
 
+		return true;
+	}
+
+	return false;
 }
 
 
 double getDouble()
 {
+	while (true)
 
-    //keep looping, if there is a value, then 'return' will end this infinite loop
-    while (true)
-    {
-        std::cout << "Enter a decimal number: ";
-        double x{};
-        std::cin >> x;   // entering a invalid value to the allocatted type make cin fail and assigns 0 and will create a INFINITE LOOOP!!!!
+	{
+		cout << "Enter the Decimal Number :";
 
+		double value{};
 
-        if (clearFailedExtraction()) // check for cin fail or pass
-        {
-            // if true (cin failed and recovered)
-            cout << "clearFailedExtraction() : OOPS, thats an invalid value, please try again...\n";
-            continue; // skip remaining logics, go back and ask to enter again
-        }
+		cin >> value;
 
-        // SUCCESS CASE : if extraction success but in case extra buffer, we directly ignore
-        ignoreLine(); // just for safer case, whether extra buffer inputs is not or there even if its a successful extraction, just clean
-        return x; //we got the User Input after the Error handling and validation
+		//cin fail check & cin eof check
+		if (clearFailedStream())
+		{
+			cout << "Invalid input!..Try again you Mf ;p\n";
 
-    }
+			continue; //skip the loop, move to next iteration which asks again the input
+		}
+
+		// cin success but extra input ignore
+		ignoreLine();
+		return value;
+	}
 }
 
 
-char getOperator()
+char getSymbol()
 {
-    // *** Error case 1: Extraction succeeds but input is meaningless --------------------------------------------------------------------------------------------------------------------------------------------
-    while (true) // loop it and ask again and again until user enters valid symbol, if valid....return it.
-    {
-        std::cout << "Enter one of the following: +, -, *, or /: ";
-        char op{};
-        std::cin >> op;
+	while (true)
+	{
+		cout << "Choose one of the following operation : +, -, /, * : ";
+
+		char operation{};
+
+		cin >> operation;
 
 
-        // remember, input type as char, cin failure occurs for integer
-        if (!clearFailedExtraction()) // check for cin fail or pass
-        {
-            ignoreLine(); // if not clear (false) means, cin extraction is success but also incase extra buffer
-        }
+		//cin health checks
 
-        // arithmetic operator symbol validation
-        switch (op) //if extraction failed, buufer will be empty and this gets skipped
-        {
-            case '+':
-            case '-':
-            case '*':
-            case '/':
-                return op; // return it to the caller
+		if (!clearFailedStream())
+		{
+			ignoreLine(); // even if cin good, there may or maynot be buffer exists input stream
+		}
 
-            default: // otherwise tell the user what went wrong
-                std::cout << "OOPS!...that value is invalid, please try again...\n";
-                continue; // even if failed extraction
-        }
 
-    }
+		// char validation
+		switch (operation)
+		{
+		case '+':
+		case '-':
+		case '*':
+		case '/':
+			return operation;
+
+
+		default:
+			cout << "Uh uhhh...Operation invalid. Please Try again\n";
+			continue; // just ask again if its invalid or cin fail (with or without eof)
+
+		}
+	}
 
 }
+
+
 
 void printResult(double x, char operation, double y)
 {
-    std::cout << x << ' ' << operation << ' ' << y << " is ";
 
-    switch (operation)
-    {
-    case '+':
-        std::cout << x + y << '\n';
-        return;
-    case '-':
-        std::cout << x - y << '\n';
-        return;
-    case '*':
-        std::cout << x * y << '\n';
-        return;
-    case '/':
-        std::cout << x / y << '\n';
-        return;
-    }
+	switch (operation)
+	{
 
-    cout << "UNKNOWN ERROR OCCURED !!! \n\n";
+		case '+':
+			cout << x + y;
+			return;
+
+		case '-':
+			cout << x - y;
+			break;
+
+		case '*':
+			cout << x * y;
+			return;
+
+		case '/':
+			cout << x / y;
+			return;
+
+	}
+
+	cout << "SOMETHING STRANGE HAPPENED!\n";
+
 }
 
 int main()
 {
 
-    double operand_1{ getDouble() };    // check - cin fail [ if eof - terminate, else recover & ignore buffer, continue ask again] / cin success [ ignore buffer ]
+	double operator_1{getDouble()};
+	
+	char operation{getSymbol()};
 
-    char operation{getOperator()}; // check - cin fail [ if eof - terminate, else recover & ignore buffer] / cin success [ ignore buffer ], cin symbol check, default invalid, continue ask again
+	double operator_2{ getDouble() };
 
-    double operand_2{ getDouble() };  // check - cin fail [ if eof - terminate, else recover & ignore buffer, continue ask again] / cin success [ ignore buffer ]
+	//divisor 0 (undefined) check
+	while (operation == '/' && operator_2 == 0)
 
-    while (operation == '/' && operand_2 == 0.0)  // check the divisor if 0.0 (undefined)
-    {
-        cout << "Undefined value for division...Try again with valid divisor\n";
-        operand_2 = getDouble(); // get the value again from user and again check the loop if entered value is not 0.0 for divisor
+	{
+		cout << "0 is undefined dividend, please try again with valid value...\n";
+		operator_2 = getDouble();
+	}
 
-    }
 
-    printResult(operand_1, operation, operand_2); // good for the calculation and printing it
+	printResult(operator_1, operation, operator_2);
 
-    return 0;
+	return 0;
 }
