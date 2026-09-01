@@ -13,7 +13,9 @@ void ignoreLine()
 
 bool hasBufferInputs()
 {
+	//!std::cin.eof() && std::cin.peek() != '\n';
 	return (!cin.eof() && cin.peek() != '\n');  // de morgan's law ->  not [cin.eof() || cin.peek() == '\n']
+
 }
 
 bool clearFailedStream()
