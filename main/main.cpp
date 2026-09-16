@@ -77,7 +77,7 @@ char getSymbol()
 
 		//cin health checks
 
-		if (!clearFailedStream())
+		if (!clearFailedStream()) // not using same logic as getDouble() - bcz here if clearFailedStream() is 'true' it will be handled by 'default' case label
 		{
 			ignoreLine(); // even if cin good, there may or maynot be buffer exists input stream
 		}
