@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits> // for numeric limits    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  
+#include <cassert>
 using namespace std;
 
 
@@ -135,24 +136,20 @@ void printResult(double x, char operation, double y)
 
 }
 
+bool isTrue(int x)
+{
+	if (x > 0)
+		return true;
+	else
+		return false;
+}
+
 int main()
 {
 
-	double operand_1{getDouble()};
-	
-	char operation{getSymbol()};
+	assert(isTrue(-1)); // runtime assertion
 
-	double operand_2{ getDouble() };
-
-	//divisor 0 (undefined) check
-	while (operation == '/' && operand_2 == 0)
-
-	{
-		cout << "The divisor cannot be zero, please try again with a valid value...\n";
-		operand_2 = getDouble();
-	}
-
-	printResult(operand_1, operation, operand_2);
+	static_assert( 34 + 2 < 0, "Error"); // Compile time assertion
 
 	return 0;
 }
