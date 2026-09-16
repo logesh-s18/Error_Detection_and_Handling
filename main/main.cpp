@@ -152,7 +152,6 @@ int main()
 		operand_2 = getDouble();
 	}
 
-
 	printResult(operand_1, operation, operand_2);
 
 	return 0;
