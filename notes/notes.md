@@ -1422,3 +1422,11 @@ If NDEBUG is defined (typical in release builds), assert expands to nothing — 
 
 So: static_assert fails the build; assert fails the process, via abort(). Two completely different failure domains.
 
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+```         Will catchup 9.6 - Assert and static_assert chapter later    ```
