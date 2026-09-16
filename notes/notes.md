@@ -1383,3 +1383,42 @@ Could the user overflow an input?
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+																			 |
+### 9.5 — Assert and static_assert                            				 |
+																			 |
+------------------------------------------------------------------------------
+
+### Project Logic Overview ----------------------------------------------------------------------------------------------------------------------------------
+
+
+```c++ compile time and runtime assertion in the end has abort inside its mechanism?```
+
+Comparing how compile-time and runtime assertions halt execution.
+Comparing how compile-time and runtime assertions halt execution.
+No — only runtime assert ends in abort(). static_assert never touches runtime at all.
+
+static_assert (compile-time)
+
+Evaluated entirely by the compiler on a constant expression.
+
+If false → compilation error, no object code emitted. Program never runs.
+
+No abort(), no runtime mechanism whatsoever — it's a compiler diagnostic, same category as a syntax error.
+assert() (runtime, from <cassert>)
+
+Expands (roughly) to:
+
+                cpp
+                if (NDEBUG not defined) {
+                    if (!(condition))
+                        __assert_fail(...);  // prints file/line/expr to stderr
+                }
+
+__assert_fail (or equivalent) eventually calls std::abort().
+abort() raises SIGABRT → abnormal termination, no stack unwinding, no destructors run.
+
+If NDEBUG is defined (typical in release builds), assert expands to nothing — condition isn't even evaluated (careful: don't put side effects inside assert).
+
+So: static_assert fails the build; assert fails the process, via abort(). Two completely different failure domains.
+
